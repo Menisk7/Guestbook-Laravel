@@ -1,7 +1,6 @@
-
 <script setup>
-import {Head, Link} from '@inertiajs/inertia-vue3';
-import Guestbook from "@/Pages/Guestbook.vue";
+import {Link} from '@inertiajs/inertia-vue3';
+
 
 defineProps({
     canLogin: Boolean,
@@ -9,8 +8,6 @@ defineProps({
     laravelVersion: String,
 })
 </script>
-
-
 
 <template>
     <div class="row justify-content-center min-h-screen">
@@ -24,7 +21,7 @@ defineProps({
         </div>
 
         <div class="">Create party</div>
-        <div class="flex flex-col">
+        <div class="flex flex-col ">
             <form>
                 <div class="">
                     <label for="name">Name</label>
@@ -42,15 +39,9 @@ defineProps({
         <button @click="increment()" class="bg-blue-200 p-2">increment variable in vuex store</button>
         <div class="flex flex-col p-8 pr-20 pl-20">
             <p class=" break-all">{{state}}</p>
-
-
-
             <p class=" break-all">{{users[0].data[0].email}}</p>
-
             <p class="break-all">{{parties.id}}</p>
-
         </div>
-
 
     </div>
 </template>
@@ -70,9 +61,7 @@ export default {
         };
     },
     computed: { state() { return this.$store.state.count } },
-
     methods: {
-
         increment() {
             this.$store.commit('increment')
             console.log(this.$store.state.count)
@@ -91,7 +80,6 @@ export default {
 
                 this.name = '';
                 this.userIds = [];
-
                 this.parties.push(data.data);
             } catch (e) {
                 alert('There was an error');
@@ -109,7 +97,6 @@ export default {
                 alert('There was an error');
                 throw e;
             }
-
             this.parties = remove(this.parties, (party) => {
                 return party.id !== id;
             });
@@ -120,7 +107,6 @@ export default {
     {
         const parties = await Axios.get('/api/parties');
         const users = await Axios.get('/api/users');
-
 
         this.$store.commit('addUser', users);
         this.$store.commit('addParties', parties);
