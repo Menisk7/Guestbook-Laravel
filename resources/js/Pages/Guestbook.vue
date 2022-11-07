@@ -39,7 +39,9 @@ defineProps({
         <button @click="increment()" class="bg-blue-200 p-2">increment variable in vuex store</button>
         <div class="flex flex-col p-8 pr-20 pl-20">
             <p class=" break-all">{{state}}</p>
-            <p class=" break-all">{{users[0].data[0].email}}</p>
+            <div v-for="user in users">
+                <p class=" break-all">{{user}}</p>
+            </div>
             <p class="break-all">{{parties.id}}</p>
         </div>
 
@@ -49,6 +51,7 @@ defineProps({
 <script>
 import remove from 'lodash/remove';
 import Axios from 'axios'
+
 
 export default {
     data() {
@@ -60,13 +63,17 @@ export default {
             isSaving: false,
         };
     },
-    computed: { state() { return this.$store.state.count } },
+    computed: {
+        state() {return this.$store.state.count},
+        //getUsers() {return this.$store.state.users}
+    },
     methods: {
         increment() {
-            this.$store.commit('increment')
-            console.log(this.$store.state.count)
-            console.log(this.$store.state.users)
-            console.log(this.$store.state.parties)
+            this.$store.commit('increment');
+            //console.log(this.$store.state.count);
+            console.log(this.$store.state.users);
+            //console.log(this.$store.state.parties);
+
         },
 
         async save()
@@ -102,18 +109,35 @@ export default {
             });
         },
     },
-
+    async created(){
+        this.$store.dispatch("getUsers");
+        //const x =await this.$store.state.users
+        //console.log("hhh");
+       // console.log(x);
+       // console.log("hhh");
+        //console.log(this.users);
+        //if(!(this.users==x)){
+        //    this.users = this.$store.state.users;
+       // }else{
+        //    console.log("bruh")
+        //}
+    },
     async mounted()
     {
-        const parties = await Axios.get('/api/parties');
-        const users = await Axios.get('/api/users');
+        //const parties = await Axios.get('/api/parties').then(response => {
+        //    this.parties = response.data
+        //});
+        //const users= await this.$store.state.users;
 
-        this.$store.commit('addUser', users);
-        this.$store.commit('addParties', parties);
 
-        this.parties = this.$store.state.parties;
-        this.users = this.$store.state.users;
+       // this.$store.commit('addUser', users);
+        //this.$store.commit('addParties', parties);
+
+        //this.parties = this.$store.state.parties;
+        //this.users = this.$store.state.users;
 
     },
+
+
 }
 </script>

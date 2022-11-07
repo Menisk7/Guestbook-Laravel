@@ -4,10 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\PartyResource;
-use App\Http\Resources\UserResource;
 use App\Models\User;
-use App\Services\PartyService;
 use App\Models\Party;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +19,16 @@ use Symfony\Component\HttpFoundation\Response;
 final class UserController extends Controller
 {
     use ValidatesRequests;
+    #[OAT\Schema(
+        schema: 'User',
+        properties: [
+            new OAT\Property(property: 'id', type: 'int'),
+            new OAT\Property(property: 'name', type: 'string', maximum: 255),
+            new OAT\Property(property: 'email', type: 'string', maximum: 255),
+            new OAT\Property(property: 'created_at', example: '2020-04-10T06:47:43.356Z', nullable: false),
+            new OAT\Property(property: 'updated_at', example: '2020-04-10T06:47:43.356Z', nullable: false),
+        ]
+    )]
 
     #[OAT\Get(
         path: '/api/users',
@@ -41,6 +48,6 @@ final class UserController extends Controller
     )]
     public function index()
     {
-        return User::all()->toJson();
+        return User::all();
     }
 }

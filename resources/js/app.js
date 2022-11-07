@@ -31,8 +31,31 @@ const store = createStore({
         addParties(state, parties) {
             // mutate state
             state.parties.push(parties)
+        },
+        getUsers(state,data) {
+            if(state.users===data){
+
+            }else{
+                state.users.push(data);
+            }
+
         }
     },
+
+    actions: {
+        async getUsers(context) {
+            const {data} = await axios.get(
+                `api/users`
+            );
+            if(store.state.users===data){
+
+            }else {
+                context.commit("getUsers", data);
+            }
+
+        }
+    }
+
 
 
 })
